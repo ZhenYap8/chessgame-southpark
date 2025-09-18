@@ -1,0 +1,24 @@
+:root { --board-light:#f0d9b5; --board-dark:#b58863; --bg:#1e1e1e; --text:#eee; font-family: system-ui,sans-serif; --square-size:72px; }
+body { margin:0; background:var(--bg); color:var(--text); }
+.spc-layout { display:flex; gap:1rem; padding:1rem; align-items:flex-start; }
+.board-container { display:grid; grid-template-columns:repeat(8, var(--square-size)); grid-auto-rows:var(--square-size); width:calc(var(--square-size)*8); height:calc(var(--square-size)*8); border:4px solid #333; }
+.sq { width:var(--square-size); height:var(--square-size); position:relative; display:flex; align-items:center; justify-content:center; font-size:1.2rem; user-select:none; }
+.sq:nth-child(16n+1), .sq:nth-child(16n+3), .sq:nth-child(16n+5), .sq:nth-child(16n+7),
+.sq:nth-child(16n+10), .sq:nth-child(16n+12), .sq:nth-child(16n+14), .sq:nth-child(16n+16) { background:var(--board-dark); }
+.sq:nth-child(16n+2), .sq:nth-child(16n+4), .sq:nth-child(16n+6), .sq:nth-child(16n+8),
+.sq:nth-child(16n+9), .sq:nth-child(16n+11), .sq:nth-child(16n+13), .sq:nth-child(16n+15) { background:var(--board-light); }
+.sq.selected { outline:3px solid #ffdf00; box-shadow:0 0 0 3px #ffdf00 inset; }
+.sq.legal-target { box-shadow:inset 0 0 0 4px rgba(0,200,0,.55); position:relative; }
+.sq.legal-target::after { content:''; width:18px; height:18px; border-radius:50%; background:rgba(0,200,0,.6); position:absolute; }
+.sq.last-move { animation:lastMovePulse 1.2s ease-out 1; }
+@keyframes lastMovePulse { 0%{outline:0 solid #ffd700;} 30%{outline:5px solid #ffd700;} 100%{outline:0 solid transparent;} }
+.piece { width:100%; height:100%; object-fit:contain; pointer-events:none; }
+.sidebar { width:260px; display:flex; flex-direction:column; gap:.75rem; }
+.status { font-weight:600; }
+.moves { list-style:decimal inside; margin:0; padding:.5rem; background:#2c2c2c; border-radius:4px; min-height:140px; }
+.controls button { display:inline-block; margin:.25rem .25rem .25rem 0; padding:.5rem .75rem; background:#444; border:0; color:var(--text); border-radius:4px; cursor:pointer; }
+.controls button:hover { background:#555; }
+.modal { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; }
+.modal.hidden { display:none; }
+.modal-backdrop { position:absolute; inset:0; background:rgba(0,0,0,.55); }
+.modal-content { position:relative; background:#222; padding:1rem; border-radius:8px; min-width:280px; }
