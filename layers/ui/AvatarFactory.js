@@ -9,7 +9,7 @@ function svgToDataUrl(svg){
 }
 function circle(svg,cx,cy,r,fill,stroke=null,sw=0){ const el=document.createElementNS(SVG_NS,'circle'); el.setAttribute('cx',cx); el.setAttribute('cy',cy); el.setAttribute('r',r); el.setAttribute('fill',fill); if(stroke){ el.setAttribute('stroke',stroke); el.setAttribute('stroke-width',sw);} svg.appendChild(el); return el; }
 function rect(svg,x,y,w,h,fill){ const el=document.createElementNS(SVG_NS,'rect'); el.setAttribute('x',x); el.setAttribute('y',y); el.setAttribute('width',w); el.setAttribute('height',h); el.setAttribute('fill',fill); svg.appendChild(el); return el; }
-function path(svg,d,fill){ const el=document.createElementNS(SVG_NS,'path'); el.setAttribute('d',d); el.setAttribute('fill',fill); svg.appendChild(el); return el; }
+function path(svg,d,fill,stroke=null,sw=0){ const el=document.createElementNS(SVG_NS,'path'); el.setAttribute('d',d); el.setAttribute('fill',fill); if(stroke){ el.setAttribute('stroke',stroke); el.setAttribute('stroke-width',sw);} svg.appendChild(el); return el; }
 function ellipse(svg,cx,cy,rx,ry,fill){ const el=document.createElementNS(SVG_NS,'ellipse'); el.setAttribute('cx',cx); el.setAttribute('cy',cy); el.setAttribute('rx',rx); el.setAttribute('ry',ry); el.setAttribute('fill',fill); svg.appendChild(el); return el; }
 
 export function makeAvatar({
@@ -23,11 +23,21 @@ export function makeAvatar({
   bg='transparent',
   mouth='line',       // 'line' | 'smile' | 'open'
   badge=null,
+  label=null,
+  labelColor='#000'
 }={}){
   const svg=document.createElementNS(SVG_NS,'svg');
   svg.setAttribute('xmlns',SVG_NS); svg.setAttribute('viewBox','0 0 100 100'); svg.setAttribute('width',size); svg.setAttribute('height',size);
   if(bg!=='transparent') circle(svg,50,50,50,bg);
   rect(svg,18,58,64,30,jacket); // torso
+  if(label){
+    const t = document.createElementNS(SVG_NS,'text');
+    t.setAttribute('x','50'); t.setAttribute('y','78');
+    t.setAttribute('text-anchor','middle'); t.setAttribute('fill',labelColor);
+    t.setAttribute('font-family','sans-serif'); t.setAttribute('font-weight','900');
+    t.setAttribute('font-size','14'); t.textContent = label;
+    svg.appendChild(t);
+  }
   if(badge) circle(svg,74,70,4,badge);
   rect(svg,43,58,14,7,skin); // neck
   circle(svg,50,42,22,skin,outline,.7); // head
@@ -50,6 +60,55 @@ export function makeAvatar({
   return svgToDataUrl(svg);
 }
 
+export function makeHorse({
+  size=96,
+  coat='#d2b48c',
+  mane='#8b4513',
+  eye='#000',
+  bg='transparent',
+  label='N',
+  labelColor='#000'
+}={}){
+  const svg=document.createElementNS(SVG_NS,'svg');
+  svg.setAttribute('xmlns',SVG_NS); svg.setAttribute('viewBox','0 0 100 100'); svg.setAttribute('width',size); svg.setAttribute('height',size);
+  if(bg!=='transparent') circle(svg,50,50,50,bg);
+  
+  // Neck/Body
+  path(svg,'M30,90 L30,60 Q30,40 50,35 Q70,40 70,60 L70,90 Z', coat);
+  
+  // Label
+  if(label){
+    const t = document.createElementNS(SVG_NS,'text');
+    t.setAttribute('x','50'); t.setAttribute('y','80');
+    t.setAttribute('text-anchor','middle'); t.setAttribute('fill',labelColor);
+    t.setAttribute('font-family','sans-serif'); t.setAttribute('font-weight','900');
+    t.setAttribute('font-size','16'); t.textContent = label;
+    svg.appendChild(t);
+  }
+
+  // Head
+  ellipse(svg,50,35,18,22,coat);
+  ellipse(svg,50,50,14,10,coat); // Snout
+  
+  // Ears
+  path(svg,'M35,20 L40,5 L50,20 Z',coat);
+  path(svg,'M65,20 L60,5 L50,20 Z',coat);
+
+  // Mane
+  path(svg,'M50,15 Q50,5 45,15',mane);
+  path(svg,'M50,15 Q50,5 55,15',mane);
+  
+  // Eyes
+  circle(svg,42,32,6,'#fff'); circle(svg,42,32,1.5,eye);
+  circle(svg,58,32,6,'#fff'); circle(svg,58,32,1.5,eye);
+
+  // Nostrils
+  circle(svg,45,50,1.5,'#000');
+  circle(svg,55,50,1.5,'#000');
+
+  return svgToDataUrl(svg);
+}
+
 export const AvatarPresets = {
   redBeanieKid: ()=> makeAvatar({ jacket:'#2b6cb0', hat:{type:'beanie', color:'#b91c1c', trim:'#e5a50a'}, hair:{style:'short', color:'#2b2b2b'}, mouth:'line' }),
   greenUshankaKid: ()=> makeAvatar({ jacket:'#10b981', hat:{type:'ushanka', color:'#15803d', trim:'#0f5132'}, hair:{style:'short', color:'#3f3f3f'}, mouth:'smile' }),
@@ -59,5 +118,21 @@ export const AvatarPresets = {
   moustacheDad: ()=> makeAvatar({ jacket:'#374151', hat:null, hair:{style:'moustache', color:'#2b2b2b'}, mouth:'line' }),
   chefHat: ()=> makeAvatar({ jacket:'#ef4444', hat:{type:'beanie', color:'#f5f5f5', trim:'#e5e7eb'}, hair:{style:'short', color:'#111'}, mouth:'smile' }),
   bookishBoy: ()=> makeAvatar({ jacket:'#22c55e', hat:null, hair:{style:'short', color:'#0f172a'}, mouth:'line', badge:'#111827' }),
-  traineePawn: ()=> makeAvatar({ jacket:'#9ca3af', hat:null, hair:{style:'short', color:'#2b2b2b'}, mouth:'line' })
+  traineePawn: ()=> makeAvatar({ jacket:'#9ca3af', hat:null, hair:{style:'short', color:'#2b2b2b'}, mouth:'line' }),
+
+  // White Team (Light clothing, dark text)
+  whiteKing: ()=> makeAvatar({ jacket:'#e5e7eb', hat:{type:'ushanka', color:'#d1d5db', trim:'#60a5fa'}, hair:{style:'short', color:'#4b5563'}, mouth:'smile', label:'K', labelColor:'#111' }),
+  whiteQueen: ()=> makeAvatar({ jacket:'#f3f4f6', hat:{type:'beanie', color:'#fca5a5', trim:'#fee2e2'}, hair:{style:'short', color:'#4b5563'}, mouth:'line', label:'Q', labelColor:'#111' }),
+  whiteRook: ()=> makeAvatar({ jacket:'#e5e7eb', hat:{type:'beanie', color:'#ffffff', trim:'#9ca3af'}, hair:{style:'short', color:'#4b5563'}, mouth:'smile', label:'R', labelColor:'#111' }),
+  whiteBishop: ()=> makeAvatar({ jacket:'#d1d5db', hat:null, hair:{style:'short', color:'#4b5563'}, mouth:'line', badge:'#3b82f6', label:'B', labelColor:'#111' }),
+  whiteKnight: ()=> makeHorse({ coat:'#fdba74', mane:'#fff', label:'KN', labelColor:'#111' }),
+  whitePawn: ()=> makeAvatar({ jacket:'#f3f4f6', hat:null, hair:{style:'short', color:'#9ca3af'}, mouth:'line', label:'P', labelColor:'#111' }),
+
+  // Black Team (Dark clothing, light text)
+  blackKing: ()=> makeAvatar({ jacket:'#1f2937', hat:{type:'cap', color:'#000000', trim:'#dc2626'}, hair:{style:'short', color:'#000000'}, mouth:'line', label:'K', labelColor:'#eee' }),
+  blackQueen: ()=> makeAvatar({ jacket:'#374151', hat:{type:'beanie', color:'#111827', trim:'#4b5563'}, hair:{style:'pigtails', color:'#000000'}, mouth:'smile', label:'Q', labelColor:'#eee' }),
+  blackRook: ()=> makeAvatar({ jacket:'#111827', hat:null, hair:{style:'moustache', color:'#000000'}, mouth:'line', label:'R', labelColor:'#eee' }),
+  blackBishop: ()=> makeAvatar({ jacket:'#1f2937', hat:null, hair:{style:'short', color:'#000000'}, mouth:'line', badge:'#ef4444', label:'B', labelColor:'#eee' }),
+  blackKnight: ()=> makeHorse({ coat:'#7c2d12', mane:'#000', label:'KN', labelColor:'#eee' }),
+  blackPawn: ()=> makeAvatar({ jacket:'#374151', hat:null, hair:{style:'short', color:'#111827'}, mouth:'line', label:'P', labelColor:'#eee' })
 };

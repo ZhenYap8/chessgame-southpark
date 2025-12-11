@@ -8,7 +8,35 @@
 </head>
 <body>
 <main id="app" class="spc-layout">
-  <div id="board-root" class="board-container" aria-label="Chessboard" role="grid"></div>
+  <!-- Board Wrapper with Coordinates -->
+  <div class="board-wrapper">
+    <!-- Rank Coordinates (1-8) -->
+    <div class="coords-rank">
+      <div class="coord-item">8</div>
+      <div class="coord-item">7</div>
+      <div class="coord-item">6</div>
+      <div class="coord-item">5</div>
+      <div class="coord-item">4</div>
+      <div class="coord-item">3</div>
+      <div class="coord-item">2</div>
+      <div class="coord-item">1</div>
+    </div>
+
+    <div id="board-root" class="board-container" aria-label="Chessboard" role="grid"></div>
+
+    <!-- File Coordinates (A-H) -->
+    <div class="coords-file">
+      <div class="coord-item">A</div>
+      <div class="coord-item">B</div>
+      <div class="coord-item">C</div>
+      <div class="coord-item">D</div>
+      <div class="coord-item">E</div>
+      <div class="coord-item">F</div>
+      <div class="coord-item">G</div>
+      <div class="coord-item">H</div>
+    </div>
+  </div>
+
   <aside id="sidebar-root" class="sidebar" role="complementary"></aside>
 </main>
 <script type="module" src="layers/ui/main.js"></script>

@@ -24,15 +24,62 @@ body {
 }
 
 /* Board Container */
+.board-wrapper {
+  position: relative;
+  padding: 30px; /* Space for coordinates */
+  background: #2a2a2a;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
 .board-container {
   display: grid;
   grid-template-columns: repeat(8, var(--square-size));
   grid-auto-rows: var(--square-size);
   width: calc(var(--square-size) * 8);
   height: calc(var(--square-size) * 8);
-  border: 8px solid #2a2a2a;
-  border-radius: 4px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  border: 4px solid #2a2a2a;
+}
+
+/* Coordinates */
+.coords-rank {
+  position: absolute;
+  left: 5px;
+  top: 30px; /* Match padding-top of wrapper + border */
+  display: flex;
+  flex-direction: column;
+  height: calc(var(--square-size) * 8);
+  justify-content: space-around;
+  color: #888;
+  font-weight: bold;
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.coords-file {
+  position: absolute;
+  bottom: 5px;
+  left: 30px; /* Match padding-left of wrapper + border */
+  display: flex;
+  width: calc(var(--square-size) * 8);
+  justify-content: space-around;
+  color: #888;
+  font-weight: bold;
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.coord-item {
+  width: var(--square-size);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coords-rank .coord-item {
+  height: var(--square-size);
+  width: 20px;
 }
 
 /* Squares */

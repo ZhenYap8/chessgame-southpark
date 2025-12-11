@@ -6,9 +6,12 @@ import { SpriteAdapter } from '../interface/SpriteAdapter.js';
 import { ChessboardView } from './ui/ChessboardView.js';
 import { SidebarView } from './ui/SidebarView.js';
 
+const BOARD_ID = 'board-root';
+const SIDEBAR_ID = 'sidebar-root';
+
 window.addEventListener('DOMContentLoaded', () => {
-  const boardRoot = document.getElementById('board-root');
-  const sidebarRoot = document.getElementById('sidebar-root');
+  const boardRoot = document.getElementById(BOARD_ID);
+  const sidebarRoot = document.getElementById(SIDEBAR_ID);
   const controller = new GameController({
     boardView: new ChessboardView(boardRoot),
     sidebarView: new SidebarView(sidebarRoot),

@@ -1,25 +1,25 @@
 import { getPieceDisplayName, customAssetPath } from '../ui/theme/CartoonTheme.js';
 import { AvatarPresets } from '../ui/AvatarFactory.js';
 
-// SpriteAdapter (stub) - returns placeholder sprite URLs/data
+// SpriteAdapter - returns generated avatars
 export class SpriteAdapter {
   constructor(){
     this.cache = new Map();
     this.whiteSet = {
-      king:   AvatarPresets.greenUshankaKid,
-      queen:  AvatarPresets.redBeanieKid,
-      rook:   AvatarPresets.chefHat,
-      bishop: AvatarPresets.bookishBoy,
-      knight: AvatarPresets.orangeHoodKid,
-      pawn:   AvatarPresets.traineePawn
+      king:   AvatarPresets.whiteKing,
+      queen:  AvatarPresets.whiteQueen,
+      rook:   AvatarPresets.whiteRook,
+      bishop: AvatarPresets.whiteBishop,
+      knight: AvatarPresets.whiteKnight,
+      pawn:   AvatarPresets.whitePawn
     };
     this.blackSet = {
-      king:   AvatarPresets.roundCapKid,
-      queen:  AvatarPresets.pigtailsGirl,
-      rook:   AvatarPresets.moustacheDad,
-      bishop: AvatarPresets.bookishBoy,
-      knight: AvatarPresets.orangeHoodKid,
-      pawn:   AvatarPresets.traineePawn
+      king:   AvatarPresets.blackKing,
+      queen:  AvatarPresets.blackQueen,
+      rook:   AvatarPresets.blackRook,
+      bishop: AvatarPresets.blackBishop,
+      knight: AvatarPresets.blackKnight,
+      pawn:   AvatarPresets.blackPawn
     };
   }
   // Attempt future custom asset override (not loading now, but path reserved)
